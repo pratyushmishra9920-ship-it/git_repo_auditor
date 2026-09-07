@@ -30,13 +30,13 @@ python -m git_repo_auditor.main --help
 ### View commit history
 
 ```bash
-python -m git_repo_auditor.main history
+python -m git_repo_auditor.main --repo https://github.com/user/repository.git history
 ```
 
 Limit the number of commits displayed:
 
 ```bash
-python -m git_repo_auditor.main history --limit 5
+python -m git_repo_auditor.main --repo https://github.com/user/repository.git history --limit 5
 ```
 
 ### Analyze a remote repository
@@ -48,25 +48,25 @@ python -m git_repo_auditor.main --repo https://github.com/user/repository.git hi
 ### View repository statistics
 
 ```bash
-python -m git_repo_auditor.main stats
+python -m git_repo_auditor.main --repo https://github.com/user/repository.git stats
 ```
 
 ### Compare two branches
 
 ```bash
-python -m git_repo_auditor.main compare main feature
+python -m git_repo_auditor.main --repo https://github.com/user/repository.git compare main feature
 ```
 
 ### Analyze repository activity
 
 ```bash
-python -m git_repo_auditor.main activity
+python -m git_repo_auditor.main --repo https://github.com/user/repository.git activity
 ```
 
 ### Check repository health
 
 ```bash
-python -m git_repo_auditor.main health
+python -m git_repo_auditor.main --repo https://github.com/user/repository.git health
 ```
 
 ## Installation
