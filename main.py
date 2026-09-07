@@ -1,12 +1,12 @@
 from git import Repo
 import tempfile
-from . import handlers, parsers, validation
+from . import handlers, parsers
 from git.exc import GitCommandError, InvalidGitRepositoryError
-import json
+
 
 def main():
 	print("*" * 80)
-	print("                     GIT REPO AUDITOR")
+	print("                               GIT REPO AUDITOR")
 	print("*" * 80)
 	print()
 	
@@ -32,7 +32,7 @@ def main():
 			parser.error(f"current directory is not git directory: {e}")
 	
 
-	func_return = args.func(args, repo)
+	args.func(args, repo)
 
 		
 

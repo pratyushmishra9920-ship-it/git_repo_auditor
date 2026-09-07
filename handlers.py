@@ -1,13 +1,11 @@
 import os
 from . import validation
-
-
-# to see commit history or commit analysis 
+from datetime import datetime
 
 def history_handler(args, repo):
 	
 	print("-" * 80)
-	print("                     COMMIT HISTORY")
+	print("                              COMMIT HISTORY")
 	print("-" * 80)
 
 
@@ -48,7 +46,7 @@ def history_handler(args, repo):
 def compare_handler(args, repo):
 	
 	print("-" * 80)
-	print("                     BRANCH COMPARISON")
+	print("                             BRANCH COMPARISON")
 	print("-" * 80)
 
 
@@ -115,7 +113,7 @@ def stats_handler(args, repo):
 	
 
 	print("-" * 80)
-	print("                     REPOSITORY STATISTICS")
+	print("                         REPOSITORY STATISTICS")
 	print("-" * 80)
 	print()
 	
@@ -326,3 +324,169 @@ def stats_handler(args, repo):
 	print()
 	print("*" * 80)
 
+
+def activity_handler(args, repo):
+
+	print("-" * 80)
+	print("                                 ACTIVITY")
+	print("-" * 80)
+	
+	commits = list(repo.iter_commits())
+	
+	contributor_dict = {}
+	for commit in commits:
+		if commit.author.name in contributor_dict:
+			contributor_dict[commit.author.name] = contributor_dict[commit.author.name] + 1
+		else:
+			contributor_dict[commit.author.name] = 1
+
+	print()
+	
+	print("   CONTRIBUTOR ACTIVITY : ")
+	print()   
+	for name, count in contributor_dict.items():
+		print(f"     {name}: {count}")
+	
+	print()
+	print("     Most Active Contributor: ",max(contributor_dict, key=contributor_dict.get))
+	print()
+	
+
+	time_dict = {}
+	for commit in commits:
+		date = datetime.fromtimestamp(commit.committed_date).date()
+		if date in time_dict:
+			time_dict[date] = time_dict[date] + 1
+		else:
+			time_dict[date] = 1
+	
+	print("   COMMIT ACTIVITY : ")
+	print()
+	for time, occur in time_dict.items():
+		print(f"     {time}: {occur}")
+	print()
+	
+	max_date = max(time_dict, key=time_dict.get)
+	max_month = max_date.strftime("%B %Y")
+	print("     Most Active Month: ", max_month)
+	
+	print()
+
+
+	print("*" * 80)
+
+def health_handler(args, repo):
+	
+	commit = list(repo.iter_commits())	
+
+	print("-" * 80)
+	print("                                    HEALTH")
+	print("-" * 80)
+	print()
+
+	pass_count = 0
+
+	files_name = []
+	for root, dirs, files in os.walk(repo.working_tree_dir):
+		for filename in files:
+			files_name.append(filename)
+	try:
+		if repo:
+			print("   ✓ GIT REPOSITORY: PASS")
+			pass_count = pass_count + 1
+		else:
+			print("    GIT REPOSITORY: WARNING")	
+	except:
+		print("   not a git repository")
+	
+
+	try:
+		if "README.md" in files_name:
+			print("   ✓ README: PASS")
+			pass_count = pass_count + 1
+		else:
+			print("    README: WARNING")
+	except:
+		print("   README file does not exist")
+
+	try:
+		if ".gitignore" in files_name:
+			print("   ✓ .gitignore: PASS")
+			pass_count = pass_count + 1
+		else:
+			print("    .gitignore: WARNING")
+	except:
+		print("   .gitignore file does not exist")
+
+	try:
+		if "LICENSE" in files_name:
+			print("   ✓ LICENSE: PASS")
+			pass_count = pass_count + 1
+		else:
+			print("⚠   LICENSE: WARNING")
+	except:
+		print("   LICENSE file does not exist")
+	
+
+	contributors = set()
+	for commits in commit:
+		contributors.add(commits.author.name)
+	
+	try:		
+		if len(contributors) > 0:
+			print("   ✓ Contributors: PASS")
+			pass_count = pass_count + 1
+		else:
+			print("    Contributors: WARNING")
+	except:
+		print("   contributors does not exist")
+
+	bran = []
+	for branch in repo.branches:
+		bran.append(branch)
+	
+	try:	
+		if len(bran) > 0:
+			print("   ✓ Branches: PASS")
+			pass_count = pass_count + 1
+		else:
+			print("    Branches: WARNING")
+	except:
+		print("branches does not exist")
+	
+	try:
+		if len(commit) > 0:
+			print("   ✓ Commits: PASS")
+			pass_count = pass_count + 1
+		else:
+			print("    Commits: WARNING")
+	except:
+		print("   commits does not exist")
+	print()
+	
+	print("-" * 80)
+	print("                                OVERALL HEALTH")
+	print("-" * 80)
+	print()
+	
+	print(f"            {pass_count} / 7 CHECKS PASSED")
+	
+	print()
+
+	percentage = round((pass_count / 7) * 100, 2)
+	print(f"            {percentage}")
+	
+	print()
+	
+	if 90 < percentage <= 100:
+		print("            EXCELLENT")
+	elif 75 < percentage <= 90:
+		print("            GOOD")
+	elif 50 <= percentage <= 75:
+		print("            NEEDS ATTENTION")
+	elif percentage < 50:
+		print("            POOR")
+	
+
+	print()
+	print("*" * 80)

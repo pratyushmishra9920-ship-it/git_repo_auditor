@@ -4,50 +4,69 @@ A Python CLI tool for analyzing Git repositories directly from the terminal.
 
 ## Features
 
-- View commit history
-- Compare branches
-- Analyze repository statistics
-- Analyze local or remote Git repositories
-- Limit commit history results
-- JSON and text output formats
+* View commit history
+* Compare branches
+* Analyze repository statistics
+* Analyze contributor and commit activity
+* Check repository health
+* Analyze local or remote Git repositories
+* Limit commit history results
 
 ## Tech Stack
 
-- Python
-- GitPython
-- argparse
-- Git
+* Python
+* GitPython
+* argparse
+* Git
 
 ## Usage
 
-Run the CLI help:
+### Run the CLI help
 
 ```bash
 python -m git_repo_auditor.main --help
 ```
 
-View commit history:
+### View commit history
 
 ```bash
 python -m git_repo_auditor.main history
 ```
 
-Analyze a remote repository:
+Limit the number of commits displayed:
+
+```bash
+python -m git_repo_auditor.main history --limit 5
+```
+
+### Analyze a remote repository
 
 ```bash
 python -m git_repo_auditor.main --repo https://github.com/user/repository.git history
 ```
 
-View repository statistics:
+### View repository statistics
 
 ```bash
 python -m git_repo_auditor.main stats
 ```
 
-Compare two branches:
+### Compare two branches
 
 ```bash
 python -m git_repo_auditor.main compare main feature
+```
+
+### Analyze repository activity
+
+```bash
+python -m git_repo_auditor.main activity
+```
+
+### Check repository health
+
+```bash
+python -m git_repo_auditor.main health
 ```
 
 ## Installation
@@ -72,7 +91,7 @@ pip install -r requirements.txt
 
 ## Project Structure
 
-```
+```text
 git_repo_auditor/
 ├── main.py
 ├── parsers.py
@@ -81,6 +100,17 @@ git_repo_auditor/
 └── __init__.py
 ```
 
+## Commands
+
+| Command    | Description                             |
+| ---------- | --------------------------------------- |
+| `history`  | Display commit history                  |
+| `compare`  | Compare two branches                    |
+| `stats`    | Display repository statistics           |
+| `activity` | Analyze contributor and commit activity |
+| `health`   | Check repository health                 |
+
 ## Status
 
-This project was built as a learning project to practice Python CLI development, Git, argparse, subprocesses, and repository analysis.
+This project was built as a learning project to practice Python CLI development, Git, `argparse`, subprocesses, and repository analysis.
+
