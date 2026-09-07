@@ -93,11 +93,14 @@ pip install -r requirements.txt
 
 ```text
 git_repo_auditor/
+├── __init__.py
 ├── main.py
 ├── parsers.py
 ├── handlers.py
 ├── validation.py
-└── __init__.py
+├── .gitignore
+├── requirements.txt
+└── README.md
 ```
 
 ## Commands
